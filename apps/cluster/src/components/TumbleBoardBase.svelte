@@ -6,7 +6,7 @@
 </script>
 
 {#each context.stateGameDerived.tumbleBoardCombined() as tumbleSymbols, reelIndex (reelIndex)}
-	{#each tumbleSymbols as tumbleSymbol}
+	{#each tumbleSymbols as tumbleSymbol, symbolIndex (symbolIndex)}
 		<TumbleSymbol {reelIndex} {tumbleSymbol} />
 	{/each}
 {/each}

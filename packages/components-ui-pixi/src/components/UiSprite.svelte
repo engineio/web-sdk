@@ -5,10 +5,13 @@
 </script>
 
 <script lang="ts">
+	import { getContextUiTheme } from '../theme';
+
 	const props: Props = $props();
+	const theme = getContextUiTheme();
 </script>
 
-<Rectangle borderRadius={50} {...props} />
+<Rectangle borderRadius={50} backgroundColor={theme.dark} {...props} />
 
 <!-- ADD YOUR DESIGN -->
 

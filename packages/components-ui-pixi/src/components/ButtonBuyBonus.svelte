@@ -4,6 +4,7 @@
 	import { stateModal, stateBet, stateBetDerived } from 'state-shared';
 
 	import UiSprite from './UiSprite.svelte';
+	import { getContextUiTheme } from '../theme';
 	import { UI_BASE_FONT_SIZE, UI_BASE_SIZE } from '../constants';
 	import { getContext } from '../context';
 	import { i18nDerived } from '../i18n/i18nDerived';
@@ -11,6 +12,7 @@
 	const props: Partial<Omit<ButtonProps, 'children'>> = $props();
 	const { stateXstateDerived, eventEmitter } = getContext();
 	const sizes = { width: UI_BASE_SIZE, height: UI_BASE_SIZE };
+	const theme = getContextUiTheme();
 	const disabled = $derived(!stateXstateDerived.isIdle());
 	const active = $derived(stateBetDerived.activeBetMode()?.type === 'activate');
 
@@ -57,13 +59,13 @@
 			height={sizes.height}
 			{...disabled
 				? {
-						backgroundColor: 0xaaaaaa,
+						backgroundColor: theme.disabled,
 					}
 				: {}}
 			{...active
 				? {
 						borderWidth: 10,
-						borderColor: 0xffffff,
+						borderColor: theme.borderOnDark,
 					}
 				: {}}
 		/>

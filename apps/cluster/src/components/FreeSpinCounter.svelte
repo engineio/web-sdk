@@ -70,7 +70,7 @@
 			})}
 		>
 			<BitmapText
-				text={'FREE SPIN'}
+				text="FREE SPIN"
 				style={{
 					fontFamily: 'gold',
 					fontSize,

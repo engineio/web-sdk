@@ -23,6 +23,11 @@ const STANDARD_MAIN_SIZES_MAP = {
 	portrait: { width: 1080, height: 1920 },
 };
 
+// Games are authored for a fixed 16:9 stage. Keeping the stage at its authored
+// size (rather than re-authoring a square/canvas-shaped variant) means the board
+// is never re-cropped; the canvas letterboxes instead.
+const FIXED_ASPECT_RATIO = 16 / 9;
+
 type MainSizesMap = typeof STANDARD_MAIN_SIZES_MAP;
 
 export const createLayout = (layoutOptions: {
@@ -48,8 +53,8 @@ export const createLayout = (layoutOptions: {
 		return 'desktop' as const;
 	};
 	const layoutType = () => {
-		if (canvasRatioType() === 'almostSquare') return 'tablet' as const;
-		if (canvasRatioType() === 'longHeight') return 'portrait' as const;
+		// A fixed-aspect game is authored once for landscape; do not switch the
+		// stage to a square/portrait variant based on the window shape.
 		if (canvasSizeType() === 'mobile' || canvasSizeType() === 'smallMobile')
 			return 'landscape' as const;
 		return 'desktop' as const;
@@ -59,7 +64,9 @@ export const createLayout = (layoutOptions: {
 	const createMainLayout = (mainSizesMap: MainSizesMap) => () => {
 		const x = canvasSizes().width * 0.5;
 		const y = canvasSizes().height * 0.5;
-		const mainSizes = mainSizesMap[layoutType()];
+		// Always lay out against the landscape stage so the board is never
+		// squashed into a square window; scale fits it inside the canvas.
+		const mainSizes = mainSizesMap.landscape ?? mainSizesMap.desktop;
 		const widthScale = canvasSizes().width / mainSizes.width;
 		const heightScale = canvasSizes().height / mainSizes.height;
 		const scale = Math.min(widthScale, heightScale);

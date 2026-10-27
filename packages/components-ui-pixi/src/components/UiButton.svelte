@@ -7,6 +7,7 @@
 	import type { Snippet } from 'svelte';
 	import { i18nDerived } from '../i18n/i18nDerived';
 	import { UI_BASE_FONT_SIZE } from '../constants';
+	import { getContextUiTheme } from '../theme';
 
 	type Props = Omit<ButtonProps, 'children'> & {
 		icon: ButtonIcon;
@@ -23,6 +24,8 @@
 		children: childrenFromParent,
 		...buttonProps
 	}: Props = $props();
+
+	const theme = getContextUiTheme();
 </script>
 
 <Button {...buttonProps}>
@@ -32,16 +35,16 @@
 			anchor={0.5}
 			width={buttonProps.sizes.width}
 			height={buttonProps.sizes.height}
-			backgroundColor={variant === 'dark' ? 0x000000 : 0xffffff}
+			backgroundColor={variant === 'dark' ? theme.dark : theme.light}
 			{...buttonProps.disabled
 				? {
-						backgroundColor: 0xaaaaaa,
+						backgroundColor: theme.disabled,
 					}
 				: {}}
 			{...active
 				? {
 						borderWidth: 10,
-						borderColor: variant === 'dark' ? 0xffffff : 0x000000,
+						borderColor: variant === 'dark' ? theme.borderOnDark : theme.borderOnLight,
 					}
 				: {}}
 		/>
@@ -57,7 +60,7 @@
 				fontFamily: 'proxima-nova',
 				fontWeight: '600',
 				fontSize: UI_BASE_FONT_SIZE * 0.9,
-				fill: variant === 'dark' ? 0xffffff : 0x000000,
+				fill: variant === 'dark' ? theme.onDark : theme.onLight,
 			}}
 		/>
 

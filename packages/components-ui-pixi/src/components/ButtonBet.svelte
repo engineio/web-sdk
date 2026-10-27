@@ -5,6 +5,7 @@
 	import { stateBetDerived } from 'state-shared';
 
 	import UiSprite from './UiSprite.svelte';
+	import { getContextUiTheme } from '../theme';
 	import ButtonBetProvider from './ButtonBetProvider.svelte';
 	import { UI_BASE_FONT_SIZE, UI_BASE_SIZE } from '../constants';
 	import { i18nDerived } from '../i18n/i18nDerived';
@@ -12,6 +13,7 @@
 	const props: Partial<Omit<ButtonProps, 'children'>> = $props();
 	const disabled = $derived(!stateBetDerived.isBetCostAvailable());
 	const sizes = { width: UI_BASE_SIZE, height: UI_BASE_SIZE };
+	const theme = getContextUiTheme();
 </script>
 
 <ButtonBetProvider>
@@ -27,7 +29,7 @@
 						anchor={0.5}
 						{...disabled || ['spin_disabled', 'stop_disabled'].includes(key)
 							? {
-									backgroundColor: 0xaaaaaa,
+									backgroundColor: theme.disabled,
 								}
 							: {}}
 					/>

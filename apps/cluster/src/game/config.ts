@@ -1,8 +1,8 @@
 export default {
 	providerName: 'sample_provider',
-	gameName: 'sample_lines',
+	gameName: 'sample_cluster',
 	gameID: '0_0_cluster',
-	rtp: 0.97,
+	rtp: 0.967,
 	numReels: 7,
 	numRows: [7, 7, 7, 7, 7, 7, 7],
 	betModes: {

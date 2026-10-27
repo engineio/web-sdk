@@ -31,7 +31,7 @@
 </script>
 
 <BoardContainer>
-	{#each wins as win}
+	{#each wins as win, index (index)}
 		<ClusterWinAmount {win} />
 	{/each}
 </BoardContainer>

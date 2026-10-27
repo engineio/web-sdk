@@ -4,6 +4,8 @@
 	import { SpineProvider, SpineTrack, SpineSlot } from 'pixi-svelte';
 
 	import { getContext } from '../game/context';
+	import { USE_PLACEHOLDER_ART } from '../game/constants';
+	import PlaceholderBanner from './PlaceholderBanner.svelte';
 
 	type AnimationState = 'intro' | 'idle' | 'outro';
 
@@ -26,21 +28,47 @@
 
 	let oncomplete = $state(() => {});
 	let animationState = $state<AnimationState>('intro');
+
+	// Map the spine anim name to a placeholder label + tier, purely for display.
+	const PLACEHOLDER_MAP = {
+		big_win: { label: 'BIG WIN', tier: 'big' },
+		super_win: { label: 'SUPER WIN', tier: 'epic' },
+		mega_win: { label: 'MEGA WIN', tier: 'mega' },
+		epic_win: { label: 'EPIC WIN', tier: 'epic' },
+		max_win: { label: 'MAX WIN', tier: 'max' },
+	} as const;
+
+	const placeholder = $derived(
+		PLACEHOLDER_MAP[
+			props.animationMap.intro.replace('_intro', '') as keyof typeof PLACEHOLDER_MAP
+		],
+	);
 </script>
 
-<SpineProvider width={context.stateGameDerived.boardLayout().width} key="bigwin">
-	<SpineTrack
-		trackIndex={0}
-		animationName={props.animationMap[animationState]}
-		loop={animationState === 'idle'}
-		listener={{
-			complete: () => {
-				if (animationState === 'intro') animationState = 'idle';
-				if (animationState === 'outro') oncomplete();
-			},
-		}}
+{#if USE_PLACEHOLDER_ART}
+	<PlaceholderBanner
+		label={placeholder?.label ?? 'WIN'}
+		tier={placeholder?.tier ?? 'big'}
+		visible
+		x={0}
+		y={-140}
 	/>
-	<SpineSlot slotName="slot_win_count">
-		{@render props.children()}
-	</SpineSlot>
-</SpineProvider>
+	{@render props.children()}
+{:else}
+	<SpineProvider width={context.stateGameDerived.boardLayout().width} key="bigwin">
+		<SpineTrack
+			trackIndex={0}
+			animationName={props.animationMap[animationState]}
+			loop={animationState === 'idle'}
+			listener={{
+				complete: () => {
+					if (animationState === 'intro') animationState = 'idle';
+					if (animationState === 'outro') oncomplete();
+				},
+			}}
+		/>
+		<SpineSlot slotName="slot_win_count">
+			{@render props.children()}
+		</SpineSlot>
+	</SpineProvider>
+{/if}

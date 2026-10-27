@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-	import { Container } from 'pixi-svelte';
+	import { Container, Text } from 'pixi-svelte';
 	import { FadeContainer, WinCountUpProvider, ResponsiveBitmapText } from 'components-pixi';
 	import { waitForResolve, waitForTimeout } from 'utils-shared/wait';
 	import { bookEventAmountToCurrencyString } from 'utils-shared/amount';
@@ -18,7 +18,7 @@
 	import WinCoins from './WinCoins.svelte';
 	import WinAnimation from './WinAnimation.svelte';
 	import PressToContinue from './PressToContinue.svelte';
-	import { SYMBOL_SIZE } from '../game/constants';
+	import { SYMBOL_SIZE, USE_PLACEHOLDER_ART } from '../game/constants';
 	import { getContext } from '../game/context';
 
 	const context = getContext();
@@ -65,18 +65,39 @@
 					>
 						{#if winLevelData?.animation}
 							<WinAnimation animationMap={winLevelData.animation}>
-								<ResponsiveBitmapText
-									anchor={0.5}
-									maxWidth={2130}
-									text={bookEventAmountToCurrencyString(countUpAmount)}
-									style={{
-										fontFamily: 'gold',
-										fontSize: SYMBOL_SIZE * 3.6,
-										align: 'center',
-										fontWeight: 'bold',
-										letterSpacing: 0,
-									}}
-								/>
+								{#if USE_PLACEHOLDER_ART}
+									<Text
+										anchor={0.5}
+										y={60}
+										text={bookEventAmountToCurrencyString(countUpAmount)}
+										style={{
+											fontFamily: 'Arial',
+											fontSize: SYMBOL_SIZE * 1.5,
+											fontWeight: '900',
+											fill: 0xffffff,
+											stroke: { color: 0xff5c8a, width: SYMBOL_SIZE * 0.22 },
+											dropShadow: {
+												color: 0x8a2b5e,
+												alpha: 0.6,
+												distance: SYMBOL_SIZE * 0.1,
+												angle: Math.PI / 2,
+											},
+										}}
+									/>
+								{:else}
+									<ResponsiveBitmapText
+										anchor={0.5}
+										maxWidth={2130}
+										text={bookEventAmountToCurrencyString(countUpAmount)}
+										style={{
+											fontFamily: 'gold',
+											fontSize: SYMBOL_SIZE * 3.6,
+											align: 'center',
+											fontWeight: 'bold',
+											letterSpacing: 0,
+										}}
+									/>
+								{/if}
 							</WinAnimation>
 						{:else}
 							<ResponsiveBitmapText

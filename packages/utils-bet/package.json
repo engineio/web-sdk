@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"scripts": {
 		"format": "prettier --write --ignore-path=../../.prettierignore .",
-		"lint": "eslint \"src\""
+		"lint": "eslint --config ../../packages/eslint-config-custom/eslint.config.js \"src\""
 	},
 	"type": "module",
 	"devDependencies": {

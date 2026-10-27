@@ -4,13 +4,17 @@
 	import { EnablePixiExtension } from 'components-pixi';
 	import { EnableHotkey } from 'components-shared';
 	import { MainContainer } from 'components-layout';
-	import { App, Text, REM } from 'pixi-svelte';
+	import { App, Sprite, REM } from 'pixi-svelte';
 	import { stateModal } from 'state-shared';
 
-	import { UI, UiGameName } from 'components-ui-pixi';
+	import { UI, UiGameName, setContextUiTheme } from 'components-ui-pixi';
 	import { GameVersion, Modals } from 'components-ui-html';
 
 	import { getContext } from '../game/context';
+	import {
+		USE_PLACEHOLDER_ART,
+		PLACEHOLDER_PALETTE,
+	} from '../game/constants';
 	import EnableSound from './EnableSound.svelte';
 	import EnableGameActor from './EnableGameActor.svelte';
 	import ResumeBet from './ResumeBet.svelte';
@@ -30,11 +34,38 @@
 	import FreeSpinCounter from './FreeSpinCounter.svelte';
 	import FreeSpinOutro from './FreeSpinOutro.svelte';
 	import Transition from './Transition.svelte';
-	import I18nTest from './I18nTest.svelte';
 
 	const context = getContext();
 
+	// Theme override so this game's UI panels match the candy palette without
+	// touching the shared component defaults used by the other apps.
+	if (USE_PLACEHOLDER_ART) {
+		setContextUiTheme({
+			dark: 0x3a1b4a,
+			light: 0xfff6ec,
+			disabled: 0x6b5578,
+			onDark: 0xffffff,
+			onLight: 0x3a1b4a,
+			borderOnDark: PLACEHOLDER_PALETTE.frameAccent,
+			borderOnLight: PLACEHOLDER_PALETTE.frameAccent,
+		});
+	}
+
 	onMount(() => (context.stateLayout.showLoadingScreen = true));
+
+	// Theme override so this game's UI panels match the candy palette without
+	// touching the shared component defaults used by the other apps.
+	if (USE_PLACEHOLDER_ART) {
+		setContextUiTheme({
+			dark: 0x2d1b45,
+			light: 0xfff6ec,
+			disabled: 0x6b5578,
+			onDark: 0xffffff,
+			onLight: 0x3a1b4a,
+			borderOnDark: PLACEHOLDER_PALETTE.frameAccent,
+			borderOnLight: PLACEHOLDER_PALETTE.frameAccent,
+		});
+	}
 
 	context.eventEmitter.subscribeOnMount({
 		buyBonusConfirm: () => {
@@ -84,20 +115,10 @@
 
 		<UI>
 			{#snippet gameName()}
-				<UiGameName name="CLUSTER GAME" />
+				<UiGameName name="JUICED UP" />
 			{/snippet}
 			{#snippet logo()}
-				<Text
-					anchor={{ x: 1, y: 0 }}
-					text="ADD YOUR LOGO"
-					style={{
-						fontFamily: 'proxima-nova',
-						fontSize: REM * 1.5,
-						fontWeight: '600',
-						lineHeight: REM * 2,
-						fill: 0xffffff,
-					}}
-				/>
+				<Sprite key="gameLogo" anchor={{ x: 1, y: 0 }} width={REM * 13} height={REM * 3.83} />
 			{/snippet}
 		</UI>
 		<Win />
@@ -107,8 +128,6 @@
 		{/if}
 		<FreeSpinOutro />
 		<Transition />
-
-		<I18nTest />
 	{/if}
 </App>
 

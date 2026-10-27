@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Sprite, type SpriteProps } from 'pixi-svelte';
+	import { Sprite } from 'pixi-svelte';
 
 	import { getSymbolInfo } from '../game/utils';
 	import { SYMBOL_SIZE } from '../game/constants';
@@ -19,7 +19,8 @@
 	});
 
 	$effect(() => {
-		props.symbolInfo;
+		// Re-run when the sprite changes so its completion callback fires per state.
+		void props.symbolInfo;
 		props.oncomplete?.();
 	});
 </script>

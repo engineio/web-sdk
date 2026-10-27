@@ -16,7 +16,7 @@
 		"format": "prettier --write --ignore-path=../../.prettierignore .",
 		"build": "svelte-package",
 		"publish": "npm publish",
-		"lint": "eslint *.ts*"
+		"lint": "eslint --config ../../packages/eslint-config-custom/eslint.config.js *.ts*"
 	},
 	"devDependencies": {
 		"@sveltejs/package": "2.3.10",

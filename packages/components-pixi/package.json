@@ -7,7 +7,7 @@
 	"license": "MIT",
 	"scripts": {
 		"format": "prettier --write --ignore-path=../../.prettierignore .",
-		"lint": "eslint \"src\"",
+		"lint": "eslint --config ../../packages/eslint-config-custom/eslint.config.js \"src\"",
 		"storybook": "PUBLIC_CHROMATIC=true storybook dev -p 5001 public"
 	},
 	"type": "module",

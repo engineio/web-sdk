@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
-	import { BitmapText, Container, Sprite, type Sizes } from 'pixi-svelte';
+	import { BitmapText, Container, Graphics, Sprite, type Sizes } from 'pixi-svelte';
 
-	import { SYMBOL_SIZE } from '../game/constants';
+	import { SYMBOL_SIZE, USE_PLACEHOLDER_SYMBOLS } from '../game/constants';
 
 	type Props = {
 		children: Snippet<[{ frameSizes: Sizes }]>;
@@ -30,7 +30,18 @@
 <Sprite anchor={0.5} key={PANEL_KEY} {...PANEL_SIZES} />
 
 <Container y={-TITLE_HEIGHT * 1.2}>
-	<Sprite anchor={0.5} key={TITLE_KEY} {...TITLE_SIZES} />
+	{#if USE_PLACEHOLDER_SYMBOLS}
+		<Graphics
+			draw={(g) => {
+				g.roundRect(-TITLE_SIZES.width / 2, -TITLE_SIZES.height / 2, TITLE_SIZES.width, TITLE_SIZES.height, TITLE_SIZES.height * 0.3)
+					.fill({ color: 0x1a1a1a, alpha: 0.85 });
+				g.roundRect(-TITLE_SIZES.width / 2, -TITLE_SIZES.height / 2, TITLE_SIZES.width, TITLE_SIZES.height, TITLE_SIZES.height * 0.3)
+					.stroke({ width: TITLE_HEIGHT * 0.05, color: 0xffe066, alpha: 0.9 });
+			}}
+		/>
+	{:else}
+		<Sprite anchor={0.5} key={TITLE_KEY} {...TITLE_SIZES} />
+	{/if}
 	<BitmapText
 		anchor={0.5}
 		y={-TITLE_HEIGHT * 0.025}

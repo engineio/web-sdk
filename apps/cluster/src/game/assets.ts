@@ -264,8 +264,21 @@ export default {
 		type: 'sprites',
 		src: new URL('../../assets/sprites/symbolsStatic/symbolsStatic.json', import.meta.url).href,
 	},
-	coins: {
-		type: 'spriteSheet',
+	// Fruit symbol art (80x80, one sprite per symbol). Registered individually so
+	// they can be swapped or extended without touching the packed atlases above.
+	H1_art: { type: 'sprite', src: '/symbols/H1.png' },
+	H2_art: { type: 'sprite', src: '/symbols/H2.png' },
+	H3_art: { type: 'sprite', src: '/symbols/H3.png' },
+	H4_art: { type: 'sprite', src: '/symbols/H4.png' },
+	L1_art: { type: 'sprite', src: '/symbols/L1.png' },
+	L2_art: { type: 'sprite', src: '/symbols/L2.png' },
+	L3_art: { type: 'sprite', src: '/symbols/L3.png' },
+	L4_art: { type: 'sprite', src: '/symbols/L4.png' },
+	W_art: { type: 'sprite', src: '/symbols/W.png' },
+	S_art: { type: 'sprite', src: '/symbols/S.png' },
+	gameLogo: { type: 'sprite', src: '/juicedup-logo.png' },
+	background: { type: 'sprite', src: '/background.jpg' },
+	coins: {		type: 'spriteSheet',
 		src: new URL('../../assets/sprites/coin/SD2_Coin.json', import.meta.url).href,
 	},
 	sound: {
